@@ -8,3 +8,10 @@ spring:
     hibernate:
       ddl-auto: create
     show-sql: true
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      platform: postgres
+      mode: always
+      separator: "^^^ END OF SCRIPT ^^^"
