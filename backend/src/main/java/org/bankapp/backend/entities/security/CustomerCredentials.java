@@ -1,10 +1,12 @@
 package org.bankapp.backend.entities.security;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 
+import java.time.Instant;
 import java.util.Set;
 
 @Entity
@@ -14,11 +16,21 @@ public class CustomerCredentials {
     @Id
     private String customerId;
 
-    private Long key;
+    private String keyHash;
 
-    private String salt;
+    private Long salt;
 
-    @OneToMany(mappedBy = "id.customerId")
+    public static final int REQUIRED_PASSWORD_PARTS = 5;
+
+    public static final int MAX_PASSWORD_LENGTH = 32;
+
+    @OneToMany(mappedBy = "id.customerId", cascade = CascadeType.PERSIST)
     private Set<CustomerSecret> secrets;
+
+    public static final int EXPIRATION_SECONDS = 15 * 60;
+
+    private String changePasswordToken;
+
+    private Instant changePasswordTokenExpiration;
 
 }

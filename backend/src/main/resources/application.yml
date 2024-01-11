@@ -15,3 +15,11 @@ spring:
       platform: postgres
       mode: always
       separator: "^^^ END OF SCRIPT ^^^"
+
+logging:
+  level:
+    org:
+      springframework:
+        security: debug
+
+    web: debug
