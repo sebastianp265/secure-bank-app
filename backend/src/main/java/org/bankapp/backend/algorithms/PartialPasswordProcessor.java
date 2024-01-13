@@ -17,6 +17,9 @@ import static java.math.BigInteger.valueOf;
 public class PartialPasswordProcessor {
     private final SecureRandom random = new SecureRandom();
 
+    public record KeyAndSecrets(long key, List<BigInteger> secrets) {
+    }
+
     // implementation is based on Shamir's Secret Sharing algorithm
     // https://en.wikipedia.org/wiki/Shamir%27s_Secret_Sharing
     public KeyAndSecrets generateKeyAndSecrets(CharSequence newPassword) {
@@ -66,9 +69,5 @@ public class PartialPasswordProcessor {
 
         return key;
     }
-
-    public record KeyAndSecrets(long key, List<BigInteger> secrets) {
-    }
-
 
 }
