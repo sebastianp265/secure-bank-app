@@ -1,5 +1,6 @@
 package org.bankapp.backend.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.bankapp.backend.dtos.ChangePasswordDTO;
 import org.bankapp.backend.services.AuthenticationService;
@@ -16,7 +17,7 @@ public class AuthenticationController {
 
     @PostMapping("/change-password/{resetToken}")
     public void changePassword(@PathVariable String resetToken,
-                              @RequestBody ChangePasswordDTO changePasswordDTO) {
+                               @Valid @RequestBody ChangePasswordDTO changePasswordDTO) {
         authenticationService.changePassword(resetToken,
                 changePasswordDTO.getPasswordParts(),
                 changePasswordDTO.getNewPassword());

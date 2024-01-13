@@ -20,6 +20,7 @@ public class CustomerCredentials {
 
     public static final int REQUIRED_PASSWORD_PARTS = 5;
 
+    public static final int MIN_PASSWORD_LENGTH = 10;
     public static final int MAX_PASSWORD_LENGTH = 32;
 
     @OneToMany(mappedBy = "id.customerId", cascade = CascadeType.MERGE)
