@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.bankapp.backend.algorithms.PartialPasswordProcessor;
 import org.bankapp.backend.entities.security.CustomerCredentials;
 import org.bankapp.backend.entities.security.CustomerSecret;
+import org.bankapp.backend.exceptions.InvalidUserIdOrPasswordException;
 import org.bankapp.backend.repostiories.CustomerCredentialsRepository;
 import org.bankapp.backend.repostiories.CustomerSecretRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,8 +36,7 @@ public class AuthenticationService {
     public void changePassword(String changePasswordToken, Map<Integer, Character> passwordParts, String newPassword) {
         String exampleCustomerId = "1234567890"; // in the future, gotten from security context
         if (!isPasswordCorrect(exampleCustomerId, passwordParts)) {
-            // TODO: Change runtime exception to api custom exception
-            throw new RuntimeException("Password is incorrect");
+            throw new InvalidUserIdOrPasswordException();
         }
         if (!isResetTokenValid(exampleCustomerId, changePasswordToken)) {
             // TODO: Change runtime exception to api custom exception
@@ -52,7 +52,7 @@ public class AuthenticationService {
     private void saveKeyAndSecrets(String customerId, KeyAndSecrets keyAndSecrets) {
         CustomerCredentials customerCredentials = customerCredentialsRepository
                 .findById(customerId)
-                .orElseThrow(); // TODO: Change to custom exception
+                .orElseThrow(InvalidUserIdOrPasswordException::new);
 
         // map secrets to CustomerSecret entities
         List<BigInteger> secrets = keyAndSecrets.secrets();
