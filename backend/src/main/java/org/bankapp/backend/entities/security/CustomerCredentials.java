@@ -18,13 +18,11 @@ public class CustomerCredentials {
 
     private String keyHash;
 
-    private Long salt;
-
     public static final int REQUIRED_PASSWORD_PARTS = 5;
 
     public static final int MAX_PASSWORD_LENGTH = 32;
 
-    @OneToMany(mappedBy = "id.customerId", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "id.customerId", cascade = CascadeType.MERGE)
     private Set<CustomerSecret> secrets;
 
     public static final int EXPIRATION_SECONDS = 15 * 60;
