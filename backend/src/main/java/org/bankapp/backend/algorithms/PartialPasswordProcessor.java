@@ -17,6 +17,8 @@ import static java.math.BigInteger.valueOf;
 public class PartialPasswordProcessor {
     private final SecureRandom random = new SecureRandom();
 
+    // implementation is based on Shamir's Secret Sharing algorithm
+    // https://en.wikipedia.org/wiki/Shamir%27s_Secret_Sharing
     public KeyAndSecrets generateKeyAndSecrets(CharSequence newPassword) {
         long[] polynomialCoefficients = random.longs(CustomerCredentials.REQUIRED_PASSWORD_PARTS).toArray();
 
