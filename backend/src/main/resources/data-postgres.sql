@@ -17,22 +17,22 @@ $$
         INSERT INTO customer_account (account_number, customer_id)
         VALUES (account_number_1, customer_id_1);
 
-        INSERT INTO customer_credentials (customer_id, salt, key_hash)
-        VALUES (customer_id_1, -5866925587908670930, '$2a$10$fAelH8X6tJjMDnZZavsDWOMbmON9c5gNR1/eMJ1.xsgIvvESCPv.m');
+        INSERT INTO customer_credentials (customer_id, key_hash)
+        VALUES (customer_id_1, '$2a$10$WOf7TwI0334NG70cN.OpheGoR/to6X4nJ1nUy8nC8eAwwc2CfuUae');
 
         -- when password = 'test_pass123'
         INSERT INTO customer_secret(customer_id, secret_index, secret)
-        VALUES (customer_id_1, 0, 4115123462542955483),
-               (customer_id_1, 1, 56899727825074956083),
-               (customer_id_1, 2, 331634795463222570832),
-               (customer_id_1, 3, 1135251013831780138670),
-               (customer_id_1, 4, 2909047736404134772664),
-               (customer_id_1, 5, 6228692982672266359972),
-               (customer_id_1, 6, 11804223438146747562042),
-               (customer_id_1, 7, 20480044454356743814347),
-               (customer_id_1, 8, 33234930048850013326636),
-               (customer_id_1, 9, 51182022905192907082815),
-               (customer_id_1, 10,75568834372970368840769),
-               (customer_id_1, 11,107777244467785935132743);
+        VALUES (customer_id_1, 0, -2003643029664899710),
+               (customer_id_1, 1, -65400837966611911474),
+               (customer_id_1, 2, -407424389813492140149),
+               (customer_id_1, 3, -1406557637870676512263),
+               (customer_id_1, 4, -3605899158445077340657),
+               (customer_id_1, 5, -7713162764850148324521),
+               (customer_id_1, 6, -14600677507405884549195),
+               (customer_id_1, 7, -25305387673438822486434),
+               (customer_id_1, 8, -41028852787282039994157),
+               (customer_id_1, 9, -63137247610275156316566),
+               (customer_id_1, 10,-93161362140764332084324),
+               (customer_id_1, 11,-132796601614102269314174);
     END
 $$;
