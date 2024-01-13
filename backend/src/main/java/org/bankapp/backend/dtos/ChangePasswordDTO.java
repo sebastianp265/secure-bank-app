@@ -13,10 +13,10 @@ import java.util.Map;
 @Jacksonized
 public class ChangePasswordDTO {
 
-    @NotNull(message = "XD1")
+    @NotNull(message = "")
     @Size(min = CustomerCredentials.REQUIRED_PASSWORD_PARTS,
             max = CustomerCredentials.REQUIRED_PASSWORD_PARTS,
-            message = "XD")
+            message = "All password parts must be provided.")
     Map<Integer, Character> passwordParts;
 
     @NotBlank(message = "Password must not be empty.")
