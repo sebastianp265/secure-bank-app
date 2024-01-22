@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.stream.Collectors;
 
@@ -14,12 +15,11 @@ import java.util.stream.Collectors;
 @Slf4j
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(HttpRuntimeException.class)
-    public ResponseEntity<ErrorResponse> handleInvalidUserIdOrPasswordException(HttpRuntimeException exception) {
+    @ExceptionHandler(AbstractCustomRuntimeException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidUserIdOrPasswordException(AbstractCustomRuntimeException exception) {
         return ResponseEntity.status(exception.getHttpStatus().value())
                 .body(
-                        new ErrorResponse(exception.getHttpStatus().value(),
-                                exception.getMessage())
+                        new ErrorResponse(exception.getMessage())
                 );
     }
 
@@ -28,8 +28,7 @@ public class GlobalExceptionHandler {
         log.debug("Unhandled exception: ", exception);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(
-                        new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                                "")
+                        new ErrorResponse("")
                 );
     }
 
@@ -37,11 +36,28 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(
-                        new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
-                                exception.getFieldErrors()
-                                        .stream()
-                                        .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                                        .collect(Collectors.joining("\n")))
+                        new ErrorResponse(exception.getFieldErrors()
+                                .stream()
+                                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                                .collect(Collectors.joining("\n"))
+                        )
+                );
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNoResourceFoundException(NoResourceFoundException exception) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(
+                        new ErrorResponse(exception.getMessage())
+                );
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleException(Exception exception) {
+        log.debug("Unhandled exception: ", exception);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(
+                        new ErrorResponse("")
                 );
     }
 

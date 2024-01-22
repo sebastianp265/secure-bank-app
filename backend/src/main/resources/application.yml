@@ -18,10 +18,5 @@ spring:
 
 logging:
   level:
-    org:
-      springframework:
-        security: debug
-
-    web: debug
-
-    bankapp.backend: debug
+    web: trace
+    bankapp.backend: trace

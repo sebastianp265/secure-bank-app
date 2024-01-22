@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 
 @AllArgsConstructor
 @Getter
-public class HttpRuntimeException extends RuntimeException {
+public abstract class AbstractCustomRuntimeException extends RuntimeException {
     private final HttpStatus httpStatus;
     private final String message;
 }

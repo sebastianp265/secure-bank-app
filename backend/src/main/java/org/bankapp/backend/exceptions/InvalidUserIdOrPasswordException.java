@@ -1,11 +1,11 @@
 package org.bankapp.backend.exceptions;
 
-import org.bankapp.backend.exceptions.handler.HttpRuntimeException;
+import org.bankapp.backend.exceptions.handler.AbstractCustomRuntimeException;
 import org.springframework.http.HttpStatus;
 
-public class InvalidUserIdOrPasswordException extends HttpRuntimeException {
+public class InvalidUserIdOrPasswordException extends AbstractCustomRuntimeException {
+    private static final HttpStatus HTTP_STATUS = HttpStatus.FORBIDDEN;
     private static final String MESSAGE = "Invalid user id or password";
-    private static final HttpStatus HTTP_STATUS = HttpStatus.NOT_FOUND;
 
     public InvalidUserIdOrPasswordException() {
         super(HTTP_STATUS, MESSAGE);
