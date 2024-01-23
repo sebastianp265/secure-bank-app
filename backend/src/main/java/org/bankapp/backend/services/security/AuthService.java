@@ -4,12 +4,18 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.bankapp.backend.algorithms.PartialPasswordProcessor;
+import org.bankapp.backend.entities.security.CustomerCredentials;
+import org.bankapp.backend.entities.security.CustomerSecret;
 import org.bankapp.backend.exceptions.InvalidUserIdOrPasswordException;
+import org.bankapp.backend.repostiories.security.CustomerCredentialsRepository;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.bankapp.backend.algorithms.PartialPasswordProcessor.KeyAndSecrets;
 
@@ -17,26 +23,11 @@ import static org.bankapp.backend.algorithms.PartialPasswordProcessor.KeyAndSecr
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final PartialPasswordProcessor partialPasswordProcessor;
-
     private final SessionService sessionService;
 
     private final PartialPasswordProcessor passwordProcessor;
 
-    private final CustomerCredentialsService customerCredentialsService;
-
-    @Transactional
-    public void changePassword(String sessionId,
-                               Map<Integer, Character> passwordParts,
-                               String newPassword) {
-        String customerId = sessionService.authorizeCustomer(sessionId);
-        authenticate(customerId, passwordParts);
-
-        KeyAndSecrets keyAndSecrets = partialPasswordProcessor
-                .generateKeyAndSecrets(newPassword);
-
-        customerCredentialsService.saveKeyAndSecrets(customerId, keyAndSecrets);
-    }
+    private final CustomerCredentialsRepository customerCredentialsRepository;
 
     public void login(String customerId, Map<Integer, Character> passwordParts, HttpServletResponse response) {
         authenticate(customerId, passwordParts);
@@ -52,10 +43,23 @@ public class AuthService {
         response.addHeader("Set-Cookie", responseCookie.toString());
     }
 
-    private void authenticate(String customerId, Map<Integer, Character> passwordParts) {
-        KeyAndSecrets keyAndSecrets = customerCredentialsService.getKeyAndSecrets(customerId);
+    void authenticate(String customerId, Map<Integer, Character> passwordParts) {
+        KeyAndSecrets keyAndSecrets = getKeyAndSecrets(customerId);
         if(!passwordProcessor.isKeyValid(passwordParts, keyAndSecrets)) {
             throw new InvalidUserIdOrPasswordException();
         }
+    }
+
+    private KeyAndSecrets getKeyAndSecrets(String customerId) {
+        CustomerCredentials customerCredentials = customerCredentialsRepository.findById(customerId)
+                .orElseThrow(InvalidUserIdOrPasswordException::new);
+
+        Map<Integer, BigInteger> secrets = customerCredentials.getSecrets().stream()
+                .collect(Collectors.toMap(c -> c.getId().getSecretIndex(), CustomerSecret::getSecret));
+        List<BigInteger> secretsList = secrets.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .map(Map.Entry::getValue)
+                .toList();
+        return new KeyAndSecrets(customerCredentials.getKeyHash(), secretsList);
     }
 }

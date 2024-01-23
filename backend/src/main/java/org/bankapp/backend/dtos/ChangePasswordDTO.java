@@ -14,8 +14,8 @@ import java.util.Map;
 public class ChangePasswordDTO {
 
     @NotNull(message = "")
-    @Size(min = CustomerCredentials.REQUIRED_PASSWORD_PARTS,
-            max = CustomerCredentials.REQUIRED_PASSWORD_PARTS,
+    @Size(min = CustomerCredentials.REQUIRED_PASSWORD_PARTS_SIZE,
+            max = CustomerCredentials.REQUIRED_PASSWORD_PARTS_SIZE,
             message = "All password parts must be provided.")
     Map<Integer, Character> passwordParts;
 

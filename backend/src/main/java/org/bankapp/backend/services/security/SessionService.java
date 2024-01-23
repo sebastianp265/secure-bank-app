@@ -4,7 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.bankapp.backend.entities.security.CustomerSession;
 import org.bankapp.backend.exceptions.SessionExpiredException;
-import org.bankapp.backend.repostiories.CustomerSessionRepository;
+import org.bankapp.backend.repostiories.security.CustomerSessionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;

@@ -25,10 +25,8 @@ public class CustomerInfo {
     private String identityCardNumber;
 
     @ManyToMany
-    @JoinTable(
-            name = "customer_account",
+    @JoinTable(name = "customer_account",
             joinColumns = @JoinColumn(name = "customer_id"),
-            inverseJoinColumns = @JoinColumn(name = "account_number")
-    )
+            inverseJoinColumns = @JoinColumn(name = "account_number"))
     private Set<Account> accounts;
 }

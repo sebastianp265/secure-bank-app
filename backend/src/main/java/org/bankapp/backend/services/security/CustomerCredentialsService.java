@@ -1,11 +1,13 @@
 package org.bankapp.backend.services.security;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.bankapp.backend.algorithms.PartialPasswordProcessor;
 import org.bankapp.backend.entities.security.CustomerCredentials;
 import org.bankapp.backend.entities.security.CustomerSecret;
 import org.bankapp.backend.exceptions.InvalidUserIdOrPasswordException;
-import org.bankapp.backend.repostiories.CustomerCredentialsRepository;
-import org.bankapp.backend.repostiories.CustomerSecretRepository;
+import org.bankapp.backend.repostiories.security.CustomerCredentialsRepository;
+import org.bankapp.backend.repostiories.security.CustomerSecretRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -22,23 +24,28 @@ import static org.bankapp.backend.algorithms.PartialPasswordProcessor.KeyAndSecr
 public class CustomerCredentialsService {
 
     private final CustomerCredentialsRepository customerCredentialsRepository;
-
     private final CustomerSecretRepository customerSecretRepository;
 
-    public KeyAndSecrets getKeyAndSecrets(String customerId) {
-        CustomerCredentials customerCredentials = customerCredentialsRepository.findById(customerId)
-                .orElseThrow(InvalidUserIdOrPasswordException::new);
+    private final SessionService sessionService;
+    private final AuthService authService;
 
-        Map<Integer, BigInteger> secrets = customerCredentials.getSecrets().stream()
-                .collect(Collectors.toMap(c -> c.getId().getSecretIndex(), CustomerSecret::getSecret));
-        List<BigInteger> secretsList = secrets.entrySet().stream()
-                .sorted(Map.Entry.comparingByKey())
-                .map(Map.Entry::getValue)
-                .toList();
-        return new KeyAndSecrets(customerCredentials.getKeyHash(), secretsList);
+    private final PartialPasswordProcessor passwordProcessor;
+
+    @Transactional
+    public void changePassword(String sessionId,
+                               Map<Integer, Character> passwordParts,
+                               String newPassword) {
+        String customerId = sessionService.authorizeCustomer(sessionId);
+        authService.authenticate(customerId, passwordParts);
+
+        KeyAndSecrets keyAndSecrets = passwordProcessor
+                .generateKeyAndSecrets(newPassword);
+
+        saveKeyAndSecrets(customerId, keyAndSecrets);
     }
 
-    protected void saveKeyAndSecrets(String customerId, KeyAndSecrets keyAndSecrets) {
+    @Transactional
+    public void saveKeyAndSecrets(String customerId, KeyAndSecrets keyAndSecrets) {
         CustomerCredentials customerCredentials = customerCredentialsRepository
                 .findById(customerId)
                 .orElseThrow(InvalidUserIdOrPasswordException::new);

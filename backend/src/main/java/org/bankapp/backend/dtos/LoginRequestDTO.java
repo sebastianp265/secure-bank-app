@@ -1,7 +1,6 @@
 package org.bankapp.backend.dtos;
 
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Value;
@@ -16,13 +15,13 @@ import java.util.Map;
 public class LoginRequestDTO {
 
     @NotNull(message = "")
-    @Pattern(regexp = "^\\d{10}$",
-            message = "Customer ID must be 10 digits long.")
+//    @Pattern(regexp = "^\\d{10}$",
+//            message = "Customer ID must be 10 digits long.")
     String customerId;
 
     @NotNull(message = "")
-    @Size(min = CustomerCredentials.REQUIRED_PASSWORD_PARTS,
-            max = CustomerCredentials.REQUIRED_PASSWORD_PARTS,
+    @Size(min = CustomerCredentials.REQUIRED_PASSWORD_PARTS_SIZE,
+            max = CustomerCredentials.REQUIRED_PASSWORD_PARTS_SIZE,
             message = "All password parts must be provided.")
     Map<Integer, Character> passwordParts;
 }

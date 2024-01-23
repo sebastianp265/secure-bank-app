@@ -1,4 +1,4 @@
-package org.bankapp.backend.repostiories;
+package org.bankapp.backend.repostiories.security;
 
 import org.bankapp.backend.entities.security.CustomerSession;
 import org.springframework.data.repository.CrudRepository;

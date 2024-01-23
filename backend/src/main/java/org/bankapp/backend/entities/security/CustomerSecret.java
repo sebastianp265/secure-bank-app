@@ -18,6 +18,11 @@ import java.math.BigInteger;
 @NoArgsConstructor
 public class CustomerSecret {
 
+    @EmbeddedId
+    private CustomerSecretId id;
+
+    private BigInteger secret;
+
     @Embeddable
     @Data
     @Builder
@@ -27,9 +32,4 @@ public class CustomerSecret {
         private String customerId;
         private Integer secretIndex;
     }
-
-    @EmbeddedId
-    private CustomerSecretId id;
-
-    private BigInteger secret;
 }
