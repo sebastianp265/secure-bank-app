@@ -1,9 +1,6 @@
 package org.bankapp.backend.entities.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -21,5 +18,8 @@ public class Account {
     @OneToMany
     @JoinColumn(name = "account_number")
     private Set<Card> cards;
+
+    @ManyToMany(mappedBy = "accounts")
+    private Set<CustomerInfo> customerInfos;
 
 }
