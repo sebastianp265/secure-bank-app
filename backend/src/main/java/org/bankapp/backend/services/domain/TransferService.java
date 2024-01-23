@@ -2,22 +2,21 @@ package org.bankapp.backend.services.domain;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.bankapp.backend.dtos.AccountGetDTO;
 import org.bankapp.backend.dtos.TransferGetDTO;
 import org.bankapp.backend.dtos.TransferRequestDTO;
 import org.bankapp.backend.entities.domain.Account;
-import org.bankapp.backend.entities.domain.CustomerInfo;
 import org.bankapp.backend.entities.domain.Transfer;
-import org.bankapp.backend.exceptions.*;
+import org.bankapp.backend.exceptions.IllegalTransferException;
+import org.bankapp.backend.exceptions.IllegalTransferHistoryRequest;
+import org.bankapp.backend.exceptions.NoSufficientFundsOnAccountException;
+import org.bankapp.backend.exceptions.RecipientAccountNotFoundException;
 import org.bankapp.backend.repostiories.domain.AccountRepository;
-import org.bankapp.backend.repostiories.domain.CustomerInfoRepository;
 import org.bankapp.backend.repostiories.domain.TransferRepository;
 import org.bankapp.backend.services.security.SessionService;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -60,7 +59,7 @@ public class TransferService {
 
     public List<TransferGetDTO> getHistoryOfTransfers(String sessionId, String accountNumber) {
         String customerId = sessionService.authorizeCustomer(sessionId);
-        if(!accountRepository.existsAccountByAccountNumberAndCustomerInfosCustomerId(
+        if (!accountRepository.existsAccountByAccountNumberAndCustomerInfosCustomerId(
                 accountNumber,
                 customerId)) {
             throw new IllegalTransferHistoryRequest();

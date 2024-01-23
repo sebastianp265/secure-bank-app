@@ -1,6 +1,5 @@
 package org.bankapp.backend.repostiories.domain;
 
-import org.bankapp.backend.dtos.AccountGetDTO;
 import org.bankapp.backend.entities.domain.Account;
 import org.springframework.data.repository.CrudRepository;
 
