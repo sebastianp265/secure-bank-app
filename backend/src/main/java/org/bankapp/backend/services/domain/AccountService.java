@@ -17,8 +17,7 @@ public class AccountService {
     private final SessionService sessionService;
     private final AccountRepository accountRepository;
 
-    public List<AccountGetDTO> getAccounts(String sessionId) {
-        String customerId = sessionService.authorizeCustomer(sessionId);
+    public List<AccountGetDTO> getAccounts(String customerId) {
         Set<Account> accounts = accountRepository.findAccountsByCustomerInfosCustomerId(customerId);
 
         return accounts.stream()

@@ -28,9 +28,7 @@ public class TransferService {
     private final TransferRepository transferRepository;
 
     @Transactional
-    public void sendTransfer(String sessionId, TransferRequestDTO transferRequestDTO) {
-        String customerId = sessionService.authorizeCustomer(sessionId);
-
+    public void sendTransfer(String customerId, TransferRequestDTO transferRequestDTO) {
         Account customerFromAccount = accountRepository.findAccountByAccountNumberAndCustomerInfosCustomerId(
                 transferRequestDTO.getFromAccount(),
                 customerId
@@ -57,8 +55,7 @@ public class TransferService {
         transferRepository.save(transfer);
     }
 
-    public List<TransferGetDTO> getHistoryOfTransfers(String sessionId, String accountNumber) {
-        String customerId = sessionService.authorizeCustomer(sessionId);
+    public List<TransferGetDTO> getHistoryOfTransfers(String customerId, String accountNumber) {
         if (!accountRepository.existsAccountByAccountNumberAndCustomerInfosCustomerId(
                 accountNumber,
                 customerId)) {

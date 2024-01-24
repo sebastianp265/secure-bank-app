@@ -22,6 +22,8 @@ public class CustomerCredentials {
 
     private String keyHash;
 
+    private String currentPasswordMask;
+
     @OneToMany(mappedBy = "id.customerId", cascade = CascadeType.MERGE)
     private Set<CustomerSecret> secrets;
 

@@ -18,9 +18,8 @@ import java.util.UUID;
 @NoArgsConstructor
 public class CustomerSession {
 
-    @GeneratedValue
     @Id
-    private UUID sessionId;
+    private String sessionId;
 
     @Column(nullable = false)
     private String customerId;

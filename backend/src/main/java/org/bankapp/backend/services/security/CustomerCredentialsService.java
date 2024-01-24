@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -32,11 +31,10 @@ public class CustomerCredentialsService {
     private final PartialPasswordProcessor passwordProcessor;
 
     @Transactional
-    public void changePassword(String sessionId,
-                               Map<Integer, Character> passwordParts,
+    public void changePassword(String customerId,
+                               String password,
                                String newPassword) {
-        String customerId = sessionService.authorizeCustomer(sessionId);
-        authService.authenticate(customerId, passwordParts);
+        authService.authenticate(customerId, password);
 
         KeyAndSecrets keyAndSecrets = passwordProcessor
                 .generateKeyAndSecrets(newPassword);

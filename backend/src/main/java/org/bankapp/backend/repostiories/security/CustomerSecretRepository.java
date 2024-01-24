@@ -10,4 +10,6 @@ public interface CustomerSecretRepository extends
 
     void deleteAllByIdCustomerId(String customerId);
 
+    int countByIdCustomerId(String customerId);
+
 }

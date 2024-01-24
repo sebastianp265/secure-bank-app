@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface CustomerSessionRepository extends CrudRepository<CustomerSession, UUID> {
+public interface CustomerSessionRepository extends CrudRepository<CustomerSession, String> {
 
     void deleteAllByCustomerId(String customerId);
 }
