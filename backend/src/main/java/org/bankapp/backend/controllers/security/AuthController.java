@@ -1,4 +1,4 @@
-package org.bankapp.backend.controllers;
+package org.bankapp.backend.controllers.security;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -10,14 +10,16 @@ import org.bankapp.backend.services.security.AuthService;
 import org.bankapp.backend.services.security.SessionService;
 import org.springframework.web.bind.annotation.*;
 
+import static org.bankapp.backend.interceptors.AuthorizationInterceptor.CUSTOMER_ID_ATTRIBUTE;
+
 @RestController
-@RequestMapping("public/auth")
+@RequestMapping()
 @RequiredArgsConstructor
 public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/login")
+    @PostMapping("public/auth/login")
     public void login(@Valid @RequestBody LoginRequestDTO loginRequestDTO,
                       HttpServletResponse response) {
         authService.login(
@@ -26,8 +28,14 @@ public class AuthController {
                 response);
     }
 
-    @PostMapping("/request-login/{customerId}")
+    @PostMapping("public/auth/request-login/{customerId}")
     public RequestLoginResponseDTO requestLogin(@PathVariable String customerId) {
         return authService.requestLogin(customerId);
+    }
+
+    @PostMapping("private/auth/logout")
+    public void logout(@RequestAttribute(name = CUSTOMER_ID_ATTRIBUTE) String customerId,
+                       HttpServletResponse response) {
+        authService.logout(customerId, response);
     }
 }

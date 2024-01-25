@@ -22,7 +22,7 @@ public class CustomerInfo {
 
     private String pesel;
 
-    private String identityCardNumber;
+    private String identityDocumentNumber;
 
     @ManyToMany
     @JoinTable(name = "customer_account",

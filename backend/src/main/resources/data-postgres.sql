@@ -1,8 +1,8 @@
 DO
 $$
     DECLARE
-        account_number_1 varchar(32) := '31 1020 2892 2276 3005 3121 3133';
-        account_number_2 varchar(32) := '56 2131 1233 3131 8231 2313 7851';
+        account_number_1 varchar(26) := '31102028922276300531213133';
+        account_number_2 varchar(26) := '56213112333131823123137851';
         customer_id_1    varchar(10) := '1234567890';
         customer_id_2    varchar(10) := '0987654321';
     BEGIN
@@ -10,12 +10,12 @@ $$
         VALUES (account_number_1, 1312.45),
                (account_number_2, 2311.00);
 
-        INSERT INTO card (card_number, account_number, cvv, valid_thru)
-        VALUES ('5645 5678 9012 3456', account_number_1, '123', '12/24'),
-               ('4345 3628 2376 1231', account_number_1, '321', '08/24'),
-               ('1234 5678 9012 3456', account_number_2, '456', '11/25');
+        INSERT INTO card (id, card_number, account_number, cvv, valid_thru)
+        VALUES ('123e4567-e89b-42d3-a456-556642440000', '5645 5678 9012 3456', account_number_1, '123', '12/24'),
+               ('123e4567-e89b-42d3-a456-556642440001', '4345 3628 2376 1231', account_number_1, '321', '08/24'),
+               ('123e4567-e89b-42d3-a456-556642440002', '1234 5678 9012 3456', account_number_2, '456', '11/25');
 
-        INSERT INTO customer_info (customer_id, first_name, second_name, surname, email, pesel, identity_card_number)
+        INSERT INTO customer_info (customer_id, first_name, second_name, surname, email, pesel, identity_document_number)
         VALUES (customer_id_1, 'Jack', '', 'Sparrow', 'jacksparrow@example.com', '01234567891', 'ABC123456'),
                (customer_id_2, 'John', 'Quincy', 'Adams', 'john.adams@example.com', '12345678901', 'XYZ987654');
 

@@ -128,4 +128,8 @@ public class AuthService {
         return new KeyAndSecrets(customerCredentials.getKeyHash(), secretsList);
     }
 
+    public void logout(String customerId, HttpServletResponse response) {
+        sessionService.deleteSession(customerId);
+        response.addHeader("Set-Cookie", sessionService.generateCookie(""));
+    }
 }

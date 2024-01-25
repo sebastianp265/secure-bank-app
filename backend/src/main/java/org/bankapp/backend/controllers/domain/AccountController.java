@@ -1,4 +1,4 @@
-package org.bankapp.backend.controllers;
+package org.bankapp.backend.controllers.domain;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

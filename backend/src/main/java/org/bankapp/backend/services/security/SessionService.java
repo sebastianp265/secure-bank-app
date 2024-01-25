@@ -58,4 +58,8 @@ public class SessionService {
                 .build()
                 .toString();
     }
+
+    void deleteSession(String sessionId) {
+        customerSessionRepository.deleteById(sessionId);
+    }
 }

@@ -6,13 +6,11 @@ import org.bankapp.backend.dtos.TransferGetDTO;
 import org.bankapp.backend.dtos.TransferRequestDTO;
 import org.bankapp.backend.entities.domain.Account;
 import org.bankapp.backend.entities.domain.Transfer;
-import org.bankapp.backend.exceptions.IllegalTransferException;
-import org.bankapp.backend.exceptions.IllegalTransferHistoryRequest;
+import org.bankapp.backend.exceptions.IllegalOperationException;
 import org.bankapp.backend.exceptions.NoSufficientFundsOnAccountException;
 import org.bankapp.backend.exceptions.RecipientAccountNotFoundException;
 import org.bankapp.backend.repostiories.domain.AccountRepository;
 import org.bankapp.backend.repostiories.domain.TransferRepository;
-import org.bankapp.backend.services.security.SessionService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -31,7 +29,7 @@ public class TransferService {
         Account customerFromAccount = accountRepository.findAccountByAccountNumberAndCustomerInfosCustomerId(
                 transferRequestDTO.getFromAccount(),
                 customerId
-        ).orElseThrow(IllegalTransferException::new);
+        ).orElseThrow(IllegalOperationException::new);
         Account recipientAccount = accountRepository.findById(transferRequestDTO.getRecipientAccountNumber())
                 .orElseThrow(RecipientAccountNotFoundException::new);
 
@@ -59,7 +57,7 @@ public class TransferService {
         if (!accountRepository.existsAccountByAccountNumberAndCustomerInfosCustomerId(
                 accountNumber,
                 customerId)) {
-            throw new IllegalTransferHistoryRequest();
+            throw new IllegalOperationException();
         }
 
         List<Transfer> transfers = transferRepository.findTransfersBySenderAccountNumberOrReceiverAccountNumberOrderByMadeAt(
