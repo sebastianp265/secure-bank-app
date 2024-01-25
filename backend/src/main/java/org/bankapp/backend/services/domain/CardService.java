@@ -24,7 +24,9 @@ public class CardService {
         Set<Card> cards = account.getCards();
         return cards.stream()
                 .map(card -> CardPreviewGetDTO.builder()
-                        .cardNumberBeginning(card.getCardNumber().substring(0, 4))
+                        .cardNumber(card.getCardNumber().substring(0, 4) + " ****".repeat(3))
+                        .cvvCode("***")
+                        .validThru("**/**")
                         .id(card.getId().toString())
                         .build())
                 .toList();
@@ -35,7 +37,7 @@ public class CardService {
     }
 
     public String getCvv(String customerId, String accountNumber, String cardId) {
-        return getCard(customerId, accountNumber, cardId).getCvv();
+;        return getCard(customerId, accountNumber, cardId).getCvv();
     }
 
     public String getValidThru(String customerId, String accountNumber, String cardId) {

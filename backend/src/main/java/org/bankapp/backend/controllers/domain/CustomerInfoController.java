@@ -14,7 +14,7 @@ import static org.bankapp.backend.interceptors.AuthorizationInterceptor.CUSTOMER
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("private/customer-info")
+@RequestMapping("api/private/customer-info")
 public class CustomerInfoController {
 
     private final CustomerInfoService customerInfoService;

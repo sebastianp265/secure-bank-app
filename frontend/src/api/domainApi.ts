@@ -23,6 +23,13 @@ export type TransferGetDTO = {
     accountNumber: string
 }
 
+export type CardPreviewGetDTO = {
+    id: string,
+    cardNumber: string
+    cvvCode: string,
+    validThru: string,
+}
+
 export const domainApi = {
     getAccounts() {
         return axiosInstance.get<AccountGetDTO[]>('accounts')
@@ -34,5 +41,9 @@ export const domainApi = {
 
     sendTransfer(transferRequestDTO: TransferRequestDTO) {
         return axiosInstance.post('transfers', transferRequestDTO)
-    }
+    },
+
+    getCardPreviews(accountNumber: string) {
+        return axiosInstance.get<CardPreviewGetDTO[]>(`cards/${accountNumber}`)
+    },
 }

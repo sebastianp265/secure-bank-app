@@ -15,7 +15,7 @@ import java.util.List;
 import static org.bankapp.backend.interceptors.AuthorizationInterceptor.CUSTOMER_ID_ATTRIBUTE;
 
 @RestController
-@RequestMapping("private/accounts")
+@RequestMapping("api/private/accounts")
 @RequiredArgsConstructor
 public class AccountController {
 

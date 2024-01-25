@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-    private static final String ALLOWED_ORIGIN = "http://localhost:5173";
+    private static final String ALLOWED_ORIGIN = "https://localhost";
     private final AuthorizationInterceptor authorizationInterceptor;
 
     @Override
@@ -25,6 +25,6 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authorizationInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/public/**");
+                .excludePathPatterns("/api/public/**");
     }
 }

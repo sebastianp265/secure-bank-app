@@ -18,4 +18,7 @@ export const securityApi = {
     login(loginRequest: LoginRequestDTO) {
         return axiosInstance.post<void>('public/auth/login', loginRequest)
     },
+    logout() {
+        return axiosInstance.post<void>('private/auth/logout')
+    },
 }

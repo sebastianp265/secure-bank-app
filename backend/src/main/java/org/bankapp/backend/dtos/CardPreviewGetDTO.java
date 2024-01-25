@@ -10,5 +10,8 @@ import lombok.extern.jackson.Jacksonized;
 public class CardPreviewGetDTO {
 
     String id;
-    String cardNumberBeginning;
+    String cardNumber;
+    String cvvCode;
+    String validThru;
+
 }

@@ -12,13 +12,13 @@ import static org.bankapp.backend.interceptors.AuthorizationInterceptor.CUSTOMER
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("")
+@RequestMapping("api")
 public class CustomerCredentialsController {
 
     private final CustomerCredentialsService customerCredentialsService;
     private final SessionService sessionService;
 
-    @PostMapping("private/credentials/change-password")
+    @PostMapping("/private/credentials/change-password")
     public void changePassword(@RequestAttribute(name = CUSTOMER_ID_ATTRIBUTE) String customerId,
                                @Valid @RequestBody ChangePasswordDTO changePasswordDTO,
                                HttpServletResponse response) {

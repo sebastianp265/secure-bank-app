@@ -18,7 +18,7 @@ public class PublicMappingDelayFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        if (!request.getRequestURI().startsWith("/private") && !request.getMethod().equals("OPTIONS")) {
+        if (!request.getRequestURI().startsWith("/api/private") && !request.getMethod().equals("OPTIONS")) {
             long startTime = System.currentTimeMillis();
             filterChain.doFilter(request, response);
             long endTime = System.currentTimeMillis();

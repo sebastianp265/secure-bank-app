@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.bankapp.backend.interceptors.AuthorizationInterceptor.CUSTOMER_ID_ATTRIBUTE;
+
 @RestController
-@RequestMapping("/private/card")
+@RequestMapping("api/private/cards")
 @RequiredArgsConstructor
 public class CardController {
 
@@ -18,7 +20,7 @@ public class CardController {
     private final SessionService sessionService;
 
     @GetMapping("/{accountNumber}")
-    public List<CardPreviewGetDTO> getCardPreviews(@RequestAttribute(name = "customerId") String customerId,
+    public List<CardPreviewGetDTO> getCardPreviews(@RequestAttribute(name = CUSTOMER_ID_ATTRIBUTE) String customerId,
                                                    @PathVariable String accountNumber,
                                                    HttpServletResponse response) {
         List<CardPreviewGetDTO> cardPreviewGetDTOS = cardService.getCardPreviews(customerId, accountNumber);
@@ -31,9 +33,9 @@ public class CardController {
     }
 
     @GetMapping("/{accountNumber}/details/{cardId}/card-number")
-    public String getCardNumber(@RequestAttribute(name = "customerId") String customerId,
-                                @PathVariable String cardId,
+    public String getCardNumber(@RequestAttribute(name = CUSTOMER_ID_ATTRIBUTE) String customerId,
                                 @PathVariable String accountNumber,
+                                @PathVariable String cardId,
                                 HttpServletResponse response) {
         String cardNumber = cardService.getCardNumber(customerId, accountNumber, cardId);
         response.addHeader("Set-Cookie",
@@ -44,8 +46,8 @@ public class CardController {
         return cardNumber;
     }
 
-    @GetMapping("/{accountNumber}/details/{cardId}/cvv")
-    public String getCvv(@RequestAttribute(name = "customerId") String customerId,
+    @GetMapping("/{accountNumber}/details/{cardId}/cvv-code")
+    public String getCvv(@RequestAttribute(name = CUSTOMER_ID_ATTRIBUTE) String customerId,
                          @PathVariable String cardId,
                          @PathVariable String accountNumber,
                          HttpServletResponse response) {
@@ -59,7 +61,7 @@ public class CardController {
     }
 
     @GetMapping("/{accountNumber}/details/{cardId}/valid-thru")
-    public String getValidThru(@RequestAttribute(name = "customerId") String customerId,
+    public String getValidThru(@RequestAttribute(name = CUSTOMER_ID_ATTRIBUTE) String customerId,
                                @PathVariable String cardId,
                                @PathVariable String accountNumber,
                                HttpServletResponse response) {

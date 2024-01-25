@@ -29,6 +29,6 @@ public class TransferRequestDTO {
     String title;
 
     @NotNull(message = "Fill amount to transfer")
-    @Pattern(regexp = "^\\d+(\\.\\d{1,2})?$", message = "Invalid amount format")
+    @Pattern(regexp = "^\\d+(.\\d{1,2})?$", message = "Invalid amount format")
     String amount;
 }

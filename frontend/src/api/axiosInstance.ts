@@ -2,7 +2,7 @@ import axios, {AxiosError} from "axios";
 
 export const customAxiosInstance = (mapping: string) => {
     const client = axios.create({
-        baseURL: "http://localhost:8080/" + mapping,
+        baseURL: "https://localhost/api/" + mapping,
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json'

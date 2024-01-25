@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import static org.bankapp.backend.interceptors.AuthorizationInterceptor.CUSTOMER_ID_ATTRIBUTE;
 
 @RestController
-@RequestMapping()
+@RequestMapping("api/")
 @RequiredArgsConstructor
 public class AuthController {
 
