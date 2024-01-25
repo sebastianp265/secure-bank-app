@@ -45,7 +45,7 @@ public class AuthService {
                     .passwordMask(passwordMask)
                     .build();
         } catch (NoSuchElementException e) {
-            int fakePasswordMaskLength = MIN_PASSWORD_LENGTH / 2; // Most common password length prediction
+            int fakePasswordMaskLength = MAX_PASSWORD_LENGTH / 2; // Most common password length prediction
             String passwordMask = generatePasswordMask(fakePasswordMaskLength);
             return RequestLoginResponseDTO.builder()
                     .passwordMask(passwordMask)

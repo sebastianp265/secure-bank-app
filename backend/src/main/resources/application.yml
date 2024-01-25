@@ -19,4 +19,4 @@ spring:
 logging:
   level:
     web: trace
-    bankapp.backend: trace
+    bankapp.backend: debug

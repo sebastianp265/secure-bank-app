@@ -1,4 +1,4 @@
-package org.bankapp.backend.validation;
+package org.bankapp.backend.dtos.validation;
 
 import org.bankapp.backend.entities.security.CustomerCredentials;
 

@@ -9,20 +9,19 @@ import org.bankapp.backend.exceptions.SessionExpiredException;
 import org.bankapp.backend.services.security.SessionService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 
 @Component
-@Slf4j
 @RequiredArgsConstructor
+@Slf4j
 public class AuthorizationInterceptor implements HandlerInterceptor {
-
     public static final String CUSTOMER_ID_ATTRIBUTE = SessionService.SESSION_COOKIE_NAME;
     private final SessionService sessionService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.debug("Request intercepted: {}", request.getRequestURI());
-        log.debug("Request attributes: {}", request.getAttributeNames());
+        if(request.getMethod().equals("OPTIONS")) {
+            return true;
+        }
         if (isAuthorized(request)) {
             return true;
         } else {
@@ -48,15 +47,5 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
             }
         }
         return false;
-    }
-
-    @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        if (request.getAttribute(CUSTOMER_ID_ATTRIBUTE) != null) {
-            String sessionId = sessionService.createSession((String) request.getAttribute(CUSTOMER_ID_ATTRIBUTE));
-            response.setHeader("Set-Cookie", sessionService.generateCookie(sessionId));
-        } else {
-            throw new IllegalStateException("Customer id attribute not set - should not happen");
-        }
     }
 }

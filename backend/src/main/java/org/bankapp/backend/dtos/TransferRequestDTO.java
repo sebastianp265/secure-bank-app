@@ -2,6 +2,7 @@ package org.bankapp.backend.dtos;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Value;
@@ -31,5 +32,6 @@ public class TransferRequestDTO {
     String title;
 
     @NotNull(message = "Fill amount to transfer")
-    BigDecimal amount;
+    @Pattern(regexp = "^\\d+(\\.\\d{1,2})?$", message = "Invalid amount format")
+    String amount;
 }

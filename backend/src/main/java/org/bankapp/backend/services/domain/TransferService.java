@@ -15,14 +15,13 @@ import org.bankapp.backend.repostiories.domain.TransferRepository;
 import org.bankapp.backend.services.security.SessionService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class TransferService {
-
-    private final SessionService sessionService;
 
     private final AccountRepository accountRepository;
     private final TransferRepository transferRepository;
@@ -36,19 +35,20 @@ public class TransferService {
         Account recipientAccount = accountRepository.findById(transferRequestDTO.getRecipientAccountNumber())
                 .orElseThrow(RecipientAccountNotFoundException::new);
 
-        if (customerFromAccount.getBalance().compareTo(transferRequestDTO.getAmount()) < 0) {
+        BigDecimal amount = new BigDecimal(transferRequestDTO.getAmount());
+        if (customerFromAccount.getBalance().compareTo(amount) < 0) {
             throw new NoSufficientFundsOnAccountException();
         }
         customerFromAccount.setBalance(customerFromAccount.getBalance()
-                .subtract(transferRequestDTO.getAmount()));
+                .subtract(amount));
         recipientAccount.setBalance(recipientAccount.getBalance()
-                .add(transferRequestDTO.getAmount()));
+                .add(amount));
 
         Transfer transfer = Transfer.builder()
                 .title(transferRequestDTO.getTitle())
                 .sender(customerFromAccount)
                 .receiver(recipientAccount)
-                .amount(transferRequestDTO.getAmount())
+                .amount(amount)
                 .madeAt(Instant.now())
                 .build();
 

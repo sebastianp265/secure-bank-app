@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Value;
 import lombok.extern.jackson.Jacksonized;
-import org.bankapp.backend.validation.Patterns;
+import org.bankapp.backend.dtos.validation.Patterns;
 
 @Value
 @Builder
