@@ -14,7 +14,7 @@ import lombok.extern.jackson.Jacksonized;
 public class TransferRequestDTO {
 
     @NotNull(message = "")
-    @Size(min = 32, max = 32, message = "'From account' number is invalid")
+    @Pattern(regexp = "^\\d{26}$", message = "Invalid account number")
     String fromAccount;
 
     @NotEmpty(message = "Provide recipient full name")

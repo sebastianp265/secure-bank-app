@@ -21,6 +21,7 @@ export const TransferSend = () => {
         domainApi.getAccounts()
             .then(response => {
                 setAccountNumbers(response.data.map(account => account.accountNumber))
+                navigate("/home")
             })
             .catch(() => {
                 navigate("/")

@@ -13,10 +13,6 @@ export const PasswordInput = ({onPasswordChange, passwordMask}: PasswordInputPro
         const firstPart = password.substring(0, passwordPartId)
         newValue = newValue.length > 0 ? newValue : " "
         const secondPart = password.substring(passwordPartId + 1, password.length)
-        console.log('firstPart: ', firstPart)
-        console.log('newValue: ', newValue)
-        console.log('secondPart: ', secondPart)
-        console.log('password: ', firstPart + newValue + secondPart)
         setPassword(firstPart + newValue + secondPart)
     }
 

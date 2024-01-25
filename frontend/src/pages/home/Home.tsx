@@ -34,10 +34,10 @@ export const Home = () => {
                     setCards(response.data)
                 })
                 .catch(() => {
-                    // navigate("/")
+                    navigate("/")
                 })
         }
-    }, [accounts, currentAccountIndex]);
+    }, [accounts, currentAccountIndex, navigate]);
 
     const axiosInstance = customAxiosInstance('')
 

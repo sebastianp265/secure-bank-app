@@ -37,7 +37,6 @@ export const Login = () => {
     }
 
     const handleLogin = () => {
-        console.log(customerId, password)
         securityApi.login({customerId, password})
             .then(() => {
                 setErrorMessage("")
